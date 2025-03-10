@@ -7,7 +7,7 @@ import {
   RESTAURANT_DISTANCE,
 } from "../../../settings/settings.js";
 import { restaurantFormValidation } from "../../../validation/restaurantFormValidation.js";
-import { extractFormData } from "../../../utils/extract.js";
+import { extractFormData } from "../../../utils/extract.ts";
 import createRestaurantItem from "../item/item.js";
 
 const modal = document.querySelector(".modal");

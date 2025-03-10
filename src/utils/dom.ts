@@ -1,5 +1,10 @@
-export function createElement(tag, props = {}) {
-  const element = document.createElement(tag);
+import type { HTMLTagName, Props } from "../types/type.ts";
+
+export function createElement(
+  tag: HTMLTagName,
+  props: Props = {}
+): HTMLElement {
+  const element = document.createElement(tag) as HTMLElement;
 
   for (const [key, value] of Object.entries(props)) {
     if (key === "className") {
@@ -10,13 +15,16 @@ export function createElement(tag, props = {}) {
       continue;
     }
 
-    element[key] = value;
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    (element as any)[key] = value;
   }
 
   return element;
 }
 
-export function createElementsFragment(elements) {
+export function createElementsFragment(
+  elements: HTMLElement[]
+): DocumentFragment {
   const fragment = document.createDocumentFragment();
   fragment.append(...elements);
   return fragment;
@@ -25,7 +33,7 @@ export function createElementsFragment(elements) {
 export function elementCashController() {
   const cash = new Map();
 
-  function getElement(selector) {
+  function getElement(selector: string): HTMLElement {
     if (!cash.has(selector)) {
       cash.set(selector, document.querySelector(selector));
     }

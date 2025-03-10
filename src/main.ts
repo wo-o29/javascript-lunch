@@ -1,22 +1,16 @@
-import createButton from "./components/button/button.js";
-import createDropdownBox from "./components/dropdown/dropdown.js";
-import createInputBox from "./components/input/input.js";
 import createRestaurantForm from "./components/restaurant/form/form.js";
-import createRestaurantItem from "./components/restaurant/item/item.js";
-import createTextAreaBox from "./components/textarea/textarea.js";
-import { elementCashController } from "./utils/dom.js";
-
-const app = document.querySelector("#app");
+import { elementCashController } from "./utils/dom.ts";
 
 const { getElement } = elementCashController();
 
 function bottomSheetController() {
   let isFirstRender = false;
 
-  function handleBottomSheetToggle(event) {
-    const modal = getElement(".modal");
+  function handleBottomSheetToggle(event: MouseEvent) {
+    const modal = getElement(".modal") as HTMLDialogElement;
+    const target = event.target as HTMLElement;
 
-    if (event.target.closest(".restaurant-add-button")) {
+    if (target?.closest(".restaurant-add-button")) {
       modal.showModal();
 
       if (!isFirstRender) {
@@ -28,7 +22,7 @@ function bottomSheetController() {
       }
     }
 
-    if (event.target.closest(".modal-backdrop")) {
+    if (target?.closest(".modal-backdrop")) {
       modal.close();
     }
   }
