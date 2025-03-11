@@ -1,3 +1,9 @@
+.restaurant-list-empty {
+  font-size: 1.25rem;
+  color: var(--grey-300);
+  text-align: center;
+}
+
 .restaurant-list-container {
   display: flex;
   flex-direction: column;
