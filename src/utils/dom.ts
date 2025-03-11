@@ -15,7 +15,6 @@ export function createElement(
       continue;
     }
 
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     (element as any)[key] = value;
   }
 
