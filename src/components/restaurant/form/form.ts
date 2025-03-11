@@ -12,6 +12,7 @@ import type { Restaurant } from "../../../types/type.ts";
 import { addRestaurantItem } from "../list/restaurantList.ts";
 import { handleCategoryFilterSelect } from "../../filterBox/filterBox.ts";
 import { handleModalClose } from "../../bottomSheet/bottomSheet.ts";
+import { v4 as uuidv4 } from "uuid";
 
 export default function createRestaurantForm() {
   const restaurantAddForm = createElement("form", {
@@ -84,7 +85,7 @@ export default function createRestaurantForm() {
         restaurantAddForm
       ) as unknown as Restaurant;
       restaurantFormValidation(formData);
-      addRestaurantItem(formData);
+      addRestaurantItem({ ...formData, id: uuidv4(), isFavorite: false });
       handleCategoryFilterSelect(formData.category);
       restaurantAddForm.reset();
       handleModalClose();
