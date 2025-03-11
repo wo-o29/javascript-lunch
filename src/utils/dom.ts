@@ -29,7 +29,7 @@ export function createElementsFragment(
   return fragment;
 }
 
-export function elementCashController() {
+function elementCashController() {
   const cash = new Map();
 
   function getElement(selector: string): HTMLElement {
@@ -42,3 +42,5 @@ export function elementCashController() {
 
   return { getElement };
 }
+
+export const { getElement } = elementCashController();
