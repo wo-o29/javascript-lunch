@@ -10,13 +10,8 @@ import { restaurantFormValidation } from "../../../validation/restaurantFormVali
 import { extractFormData } from "../../../utils/extract.ts";
 import type { Restaurant } from "../../../types/type.ts";
 import { addRestaurantItem } from "../list/restaurantList.ts";
-import { getElement } from "../../../utils/dom.ts";
-
-const modal = getElement(".modal") as HTMLDialogElement;
-
-function handleModalClose() {
-  modal.close();
-}
+import { handleCategoryFilterSelect } from "../../filterBox/filterBox.ts";
+import { handleModalClose } from "../../bottomSheet/bottomSheet.ts";
 
 export default function createRestaurantForm() {
   const restaurantAddForm = createElement("form", {
@@ -90,10 +85,13 @@ export default function createRestaurantForm() {
       ) as unknown as Restaurant;
       restaurantFormValidation(formData);
       addRestaurantItem(formData);
+      handleCategoryFilterSelect(formData.category);
       restaurantAddForm.reset();
       handleModalClose();
     } catch (error) {
-      alert((error as Error).message);
+      if (error instanceof Error) {
+        alert(error.message);
+      }
     }
   }
 

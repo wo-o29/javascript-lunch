@@ -3,9 +3,13 @@ import createRestaurantForm from "../restaurant/form/form";
 
 function bottomSheetController() {
   let isFirstRender = false;
+  const modal = getElement(".modal") as HTMLDialogElement;
+
+  function handleModalClose() {
+    modal.close();
+  }
 
   function handleBottomSheetToggle(event: MouseEvent) {
-    const modal = getElement(".modal") as HTMLDialogElement;
     const target = event.target as HTMLElement;
 
     if (target?.closest(".restaurant-add-button")) {
@@ -25,7 +29,8 @@ function bottomSheetController() {
     }
   }
 
-  return { handleBottomSheetToggle };
+  return { handleModalClose, handleBottomSheetToggle };
 }
 
-export const { handleBottomSheetToggle } = bottomSheetController();
+export const { handleModalClose, handleBottomSheetToggle } =
+  bottomSheetController();

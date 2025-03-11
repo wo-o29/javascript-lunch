@@ -3,18 +3,26 @@ import type { CategoryFilter, SortedOption } from "../../types/type";
 import { getElement } from "../../utils/dom";
 import createFilter from "../filter/filter";
 import {
-  renderFilterRestaurantList,
-  renderSortedRestaurantList,
+  setCategoryFilter,
+  setSortedOption,
 } from "../restaurant/list/restaurantList";
+
+export function handleCategoryFilterSelect(categoryFilter: CategoryFilter) {
+  const select = document.getElementById(
+    "category-filter"
+  ) as HTMLSelectElement;
+  select.value = categoryFilter;
+  setCategoryFilter(categoryFilter);
+}
 
 function handleCategoryFilterChange(e: Event) {
   const target = e.target as HTMLSelectElement;
-  renderFilterRestaurantList(target.value as CategoryFilter);
+  setCategoryFilter(target.value as CategoryFilter);
 }
 
 function handleSortedFilterChange(e: Event) {
   const target = e.target as HTMLSelectElement;
-  renderSortedRestaurantList(target.value as SortedOption);
+  setSortedOption(target.value as SortedOption);
 }
 
 function filterBoxRenderer() {
