@@ -1,10 +1,12 @@
+import type { Props } from "../../types/type.ts";
+
 export default function createInputBox({
   labelText,
   type,
   id,
   required = false,
   textCaption = "",
-}) {
+}: Props) {
   const inputBox = createElement("div", {
     className: ["form-item", `${required && "form-item--required"}`],
   });

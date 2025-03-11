@@ -8,9 +8,11 @@ import {
 } from "../../../settings/settings.js";
 import { restaurantFormValidation } from "../../../validation/restaurantFormValidation.js";
 import { extractFormData } from "../../../utils/extract.ts";
-import createRestaurantItem from "../item/item.js";
+import { getElement } from "../../../main.ts";
+import type { Restaurant } from "../../../types/type.ts";
+import { addRestaurantItem } from "../list/restaurantList.ts";
 
-const modal = document.querySelector(".modal");
+const modal = getElement(".modal") as HTMLDialogElement;
 
 function handleModalClose() {
   modal.close();
@@ -78,18 +80,20 @@ export default function createRestaurantForm() {
 
   restaurantAddForm.appendChild(buttonContainer);
 
-  function handleAddRestaurantFormSubmit(event) {
+  function handleAddRestaurantFormSubmit(event: SubmitEvent) {
     event.preventDefault();
 
     try {
-      const formData = extractFormData(restaurantAddForm);
+      const formData = extractFormData(
+        restaurantAddForm
+      ) as unknown as Restaurant;
       restaurantFormValidation(formData);
-      const restaurantList = document.querySelector(".restaurant-list");
-      restaurantList.appendChild(createRestaurantItem(formData));
+      addRestaurantItem(formData);
       restaurantAddForm.reset();
+
       handleModalClose();
     } catch (error) {
-      alert(error.message);
+      alert((error as Error).message);
     }
   }
 

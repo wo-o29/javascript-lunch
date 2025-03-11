@@ -1,3 +1,5 @@
+import type { Restaurant } from "../../../types/type.ts";
+
 const categoryIcon = {
   한식: "./category-korean.png",
   중식: "./category-chinese.png",
@@ -12,8 +14,7 @@ export default function createRestaurantItem({
   name,
   distance,
   description,
-  link,
-}) {
+}: Restaurant) {
   const restaurantItem = createElement("li", { className: "restaurant" });
 
   const categoryBox = createElement("div", {

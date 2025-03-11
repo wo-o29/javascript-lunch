@@ -1,3 +1,5 @@
+import type { Props } from "../../types/type.ts";
+
 const defaultOption = { value: "", text: "선택해 주세요" };
 
 export default function createDropdownBox({
@@ -5,7 +7,7 @@ export default function createDropdownBox({
   id,
   dropdownList,
   required = false,
-}) {
+}: Props) {
   const dropdownBox = createElement("div", {
     className: ["form-item", `${required && "form-item--required"}`],
   });
