@@ -1,4 +1,4 @@
-import createRestaurantItem from "../item/item";
+import createRestaurantItem from "../list/item/item.ts";
 import type {
   CategoryFilter,
   Restaurant,

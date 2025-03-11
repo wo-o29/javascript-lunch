@@ -15,10 +15,17 @@
 .restaurant {
   display: flex;
   align-items: flex-start;
-
   padding: 16px 8px;
-
   border-bottom: 1px solid #e9eaed;
+  position: relative;
+}
+
+.star-icon {
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
 .restaurant__category {
