@@ -23,11 +23,12 @@ export default function createRestaurantForm() {
     className: "restaurant-add-form",
   });
 
+  const defaultOption = { value: "", text: "선택해 주세요" };
   restaurantAddForm.append(
     createDropdownBox({
       labelText: "카테고리",
       id: "category",
-      dropdownList: FOOD_CATEGORY,
+      dropdownList: [defaultOption, ...FOOD_CATEGORY],
       required: true,
     }),
     createInputBox({
@@ -39,7 +40,7 @@ export default function createRestaurantForm() {
     createDropdownBox({
       labelText: "거리(도보 이동 시간)",
       id: "distance",
-      dropdownList: RESTAURANT_DISTANCE,
+      dropdownList: [defaultOption, ...RESTAURANT_DISTANCE],
       required: true,
     }),
     createTextAreaBox({
@@ -90,7 +91,6 @@ export default function createRestaurantForm() {
       restaurantFormValidation(formData);
       addRestaurantItem(formData);
       restaurantAddForm.reset();
-
       handleModalClose();
     } catch (error) {
       alert((error as Error).message);

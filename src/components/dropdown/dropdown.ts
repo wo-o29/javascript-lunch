@@ -1,7 +1,5 @@
 import type { Props } from "../../types/type.ts";
 
-const defaultOption = { value: "", text: "선택해 주세요" };
-
 export default function createDropdownBox({
   labelText,
   id,
@@ -22,12 +20,12 @@ export default function createDropdownBox({
     required,
   });
 
-  const optionList = [defaultOption, ...dropdownList];
-  const optionElements = optionList.map(({ value, text }) =>
-    createElement("option", {
-      value,
-      textContent: text,
-    })
+  const optionElements = dropdownList.map(
+    ({ value, text }: Record<string, string>) =>
+      createElement("option", {
+        value,
+        textContent: text,
+      })
   );
 
   select.append(...optionElements);
