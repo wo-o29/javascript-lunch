@@ -1,7 +1,7 @@
 export type HTMLTagName = keyof HTMLElementTagNameMap;
 
 export interface Props {
-  [key: string]: string | string[];
+  [key: string]: any;
 }
 
 export type Category = "한식" | "중식" | "일식" | "양식" | "아시안" | "기타";
@@ -12,10 +12,10 @@ export type SortFilter = "이름순" | "거리순";
 
 export type Distance = "5" | "10" | "15" | "20" | "30";
 
-export interface RestaurantAddForm {
+export interface Restaurant {
   category: Category;
   name: string;
   distance: Distance;
-  description: string;
-  link: string;
+  description?: string;
+  link?: string;
 }
