@@ -1,7 +1,5 @@
-import createRestaurantForm from "./components/restaurant/form/form.js";
-import { elementCashController } from "./utils/dom.ts";
-
-const { getElement } = elementCashController();
+import createRestaurantForm from "./components/restaurant/form/form.ts";
+import { getElement } from "./utils/dom.ts";
 
 function bottomSheetController() {
   let isFirstRender = false;

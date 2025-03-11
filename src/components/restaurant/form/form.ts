@@ -1,16 +1,16 @@
-import createButton from "../../button/button.js";
-import createDropdownBox from "../../dropdown/dropdown.js";
-import createInputBox from "../../input/input.js";
-import createTextAreaBox from "../../textarea/textarea.js";
+import createButton from "../../button/button.ts";
+import createDropdownBox from "../../dropdown/dropdown.ts";
+import createInputBox from "../../input/input.ts";
+import createTextAreaBox from "../../textarea/textarea.ts";
 import {
   FOOD_CATEGORY,
   RESTAURANT_DISTANCE,
-} from "../../../settings/settings.js";
-import { restaurantFormValidation } from "../../../validation/restaurantFormValidation.js";
+} from "../../../settings/settings.ts";
+import { restaurantFormValidation } from "../../../validation/restaurantFormValidation.ts";
 import { extractFormData } from "../../../utils/extract.ts";
-import { getElement } from "../../../main.ts";
 import type { Restaurant } from "../../../types/type.ts";
 import { addRestaurantItem } from "../list/restaurantList.ts";
+import { getElement } from "../../../utils/dom.ts";
 
 const modal = getElement(".modal") as HTMLDialogElement;
 
