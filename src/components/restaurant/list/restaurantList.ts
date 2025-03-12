@@ -12,6 +12,24 @@ export function getRestaurantList(): Restaurant[] {
   return getStorage(STORAGE_KEY.RESTAURANTS) ?? [];
 }
 
+export function getRestaurantItem(id: string): Restaurant {
+  const restaurantList = getRestaurantList();
+  const result = restaurantList.find((restaurant) => restaurant.id === id);
+
+  if (!result) {
+    throw new Error("해당 ID를 가진 음식점이 없습니다.");
+  }
+
+  return result;
+}
+
+export function removeRestaurantItem(id: string): Restaurant[] {
+  const restaurantList = getRestaurantList();
+  const newList = restaurantList.filter((restaurant) => restaurant.id !== id);
+  setStorage(STORAGE_KEY.RESTAURANTS, newList);
+  return newList;
+}
+
 function sortRestaurantList(
   restaurantList: Restaurant[],
   sortedOption: SortedOption
