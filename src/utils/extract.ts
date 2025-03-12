@@ -1,4 +1,4 @@
-export function extractByKey<T extends Record<string, any>, K extends keyof T>(
+export function extractByKey<T, K extends keyof T>(
   list: readonly T[] | T[],
   key: K
 ): T[K][] {

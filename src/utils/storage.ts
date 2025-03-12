@@ -9,7 +9,7 @@ function storageController(storage: Storage) {
     return null;
   }
 
-  function setStorage(key: string, value: any) {
+  function setStorage<T>(key: string, value: T) {
     storage.setItem(key, JSON.stringify(value));
   }
 
