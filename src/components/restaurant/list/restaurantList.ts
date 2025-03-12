@@ -1,4 +1,4 @@
-import createRestaurantItem from "../list/item/item.ts";
+import createRestaurantItem from "./item/restaurantItem.ts";
 import type {
   CategoryFilter,
   Restaurant,
@@ -6,53 +6,12 @@ import type {
 } from "../../../types/type.ts";
 import { getElement } from "../../../utils/dom.ts";
 import { STORAGE_KEY } from "../../../settings/settings.ts";
-import { getStorage, setStorage } from "../../../utils/storage.ts";
-
-export function getRestaurantList(): Restaurant[] {
-  return getStorage(STORAGE_KEY.RESTAURANTS) ?? [];
-}
-
-export function getRestaurantItem(id: string): Restaurant {
-  const restaurantList = getRestaurantList();
-  const result = restaurantList.find((restaurant) => restaurant.id === id);
-
-  if (!result) {
-    throw new Error("해당 ID를 가진 음식점이 없습니다.");
-  }
-
-  return result;
-}
-
-export function removeRestaurantItem(id: string): Restaurant[] {
-  const restaurantList = getRestaurantList();
-  const newList = restaurantList.filter((restaurant) => restaurant.id !== id);
-  setStorage(STORAGE_KEY.RESTAURANTS, newList);
-  return newList;
-}
-
-function sortRestaurantList(
-  restaurantList: Restaurant[],
-  sortedOption: SortedOption
-) {
-  return restaurantList.sort((a, b) => {
-    if (sortedOption === "name") {
-      return a[sortedOption].localeCompare(b[sortedOption]);
-    }
-
-    return a[sortedOption] - b[sortedOption];
-  });
-}
-
-function filterRestaurantList(
-  restaurantList: Restaurant[],
-  categoryFilter: CategoryFilter
-) {
-  if (categoryFilter === "전체") {
-    return restaurantList;
-  }
-
-  return restaurantList.filter(({ category }) => category === categoryFilter);
-}
+import { setStorage } from "../../../utils/storage.ts";
+import {
+  filterRestaurantList,
+  getRestaurantList,
+  sortRestaurantList,
+} from "../../../utils/restaurant.ts";
 
 interface CurrentRestaurantListState {
   categoryFilter: CategoryFilter;
