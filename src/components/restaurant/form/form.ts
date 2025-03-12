@@ -15,6 +15,10 @@ import { handleModalClose } from "../../bottomSheet/bottomSheet.ts";
 import { v4 as uuidv4 } from "uuid";
 
 export default function createRestaurantForm() {
+  const title = createElement("h2", {
+    className: ["modal-title", "text-title"],
+    textContent: "새로운 음식점",
+  });
   const restaurantAddForm = createElement("form", {
     className: "restaurant-add-form",
   });
@@ -98,5 +102,5 @@ export default function createRestaurantForm() {
 
   restaurantAddForm.addEventListener("submit", handleAddRestaurantFormSubmit);
 
-  return restaurantAddForm;
+  return createElementsFragment([title, restaurantAddForm]);
 }
