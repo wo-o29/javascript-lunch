@@ -1,10 +1,13 @@
 import { STORAGE_KEY } from "../../../../settings/settings.ts";
 import type { Restaurant } from "../../../../types/type.ts";
+import {
+  getRestaurantItem,
+  getRestaurantList,
+} from "../../../../utils/restaurant.ts";
 import { setStorage } from "../../../../utils/storage.ts";
 import { openRestaurantDetailModal } from "../../../bottomSheet/bottomSheet.ts";
 import createCategoryIcon from "../../../categoryIcon/categoryIcon.ts";
 import createStarIcon from "../../../starIcon/starIcon.ts";
-import { getRestaurantItem, getRestaurantList } from "../restaurantList.ts";
 
 function replaceStarIcon(
   isFavorite: boolean,

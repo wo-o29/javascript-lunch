@@ -1,7 +1,7 @@
 import type { Restaurant } from "../../types/type";
 import { getElement } from "../../utils/dom";
 import createRestaurantDetail from "../restaurant/detail/restaurantDetail";
-import createRestaurantForm from "../restaurant/form/form";
+import createRestaurantForm from "../restaurant/form/restaurantForm";
 
 function bottomSheetController() {
   const modal = getElement(".modal") as HTMLDialogElement;

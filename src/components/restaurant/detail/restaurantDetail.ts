@@ -1,4 +1,5 @@
 import type { Restaurant } from "../../../types/type";
+import { removeRestaurantItem } from "../../../utils/restaurant";
 import { handleModalClose } from "../../bottomSheet/bottomSheet";
 import createButton from "../../button/button";
 import createCategoryIcon from "../../categoryIcon/categoryIcon";
@@ -6,11 +7,8 @@ import createStarIcon from "../../starIcon/starIcon";
 import {
   getRestaurantItemStarIcon,
   toggleRestaurantFavorite,
-} from "../list/item/item";
-import {
-  removeRestaurantItem,
-  renderRestaurantList,
-} from "../list/restaurantList";
+} from "../list/item/restaurantItem";
+import { renderRestaurantList } from "../list/restaurantList";
 
 function handleRestaurantItemDelete(id: string) {
   renderRestaurantList(removeRestaurantItem(id));
@@ -91,13 +89,11 @@ function createRestaurantDetail({
         "delete-button",
       ],
       textContent: "삭제하기",
-      onclick: () => handleRestaurantItemDelete(id),
     }),
     createButton({
       type: "button",
       className: ["button", "button--primary", "text-caption", "close-button"],
       textContent: "닫기",
-      onclick: handleModalClose,
     })
   );
 
