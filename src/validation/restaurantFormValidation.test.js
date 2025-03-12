@@ -52,7 +52,7 @@ describe("음식 추가하기 폼 테스트", () => {
     });
 
     it("5분은 유효한 거리이다.", () => {
-      const distance = "5";
+      const distance = 5;
       expect(() => _validateRestaurantDistance(distance)).not.toThrow();
     });
   });
