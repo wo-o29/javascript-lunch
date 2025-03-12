@@ -69,7 +69,7 @@ export function restaurantFormValidation({
 }: Restaurant) {
   _validateRestaurantCategory(category);
   _validateRestaurantName(name);
-  _validateRestaurantDistance(distance);
+  _validateRestaurantDistance(Number(distance) as Distance);
   description && _validateRestaurantDescription(description);
   link && _validateRestaurantLink(link);
 }
