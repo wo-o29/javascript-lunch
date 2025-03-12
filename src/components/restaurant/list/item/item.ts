@@ -1,39 +1,62 @@
 import { STORAGE_KEY } from "../../../../settings/settings.ts";
 import type { Restaurant } from "../../../../types/type.ts";
 import { setStorage } from "../../../../utils/storage.ts";
+import { openRestaurantDetailModal } from "../../../bottomSheet/bottomSheet.ts";
+import createCategoryIcon from "../../../categoryIcon/categoryIcon.ts";
 import createStarIcon from "../../../starIcon/starIcon.ts";
-import { getRestaurantList } from "../restaurantList.ts";
+import { getRestaurantItem, getRestaurantList } from "../restaurantList.ts";
 
-const categoryIcon = {
-  한식: "./category-korean.png",
-  중식: "./category-chinese.png",
-  일식: "./category-japanese.png",
-  양식: "./category-western.png",
-  아시안: "./category-asian.png",
-  기타: "./category-etc.png",
-};
-
-function replaceStarIcon({ isFavorite }: Record<string, boolean>) {
-  document.querySelector(".star-icon")?.replaceWith(
+function replaceStarIcon(
+  isFavorite: boolean,
+  starIcon: HTMLElement,
+  className: string
+) {
+  starIcon.replaceWith(
     createStarIcon({
+      className,
       isFill: isFavorite,
     })
   );
 }
 
+export function getRestaurantItemStarIcon(id: string) {
+  const restaurantItem = document.querySelector(`[data-id="${id}"]`);
+  return restaurantItem?.querySelector(".star-icon") as HTMLElement;
+}
+
+interface ReplaceStarIcons {
+  starIcon: HTMLElement;
+  className: string;
+}
+
+export function toggleRestaurantFavorite(
+  id: string,
+  replaceStarIcons: ReplaceStarIcons[]
+) {
+  const restaurantList = getRestaurantList().map((restaurant) => {
+    if (restaurant.id === id) {
+      restaurant.isFavorite = !restaurant.isFavorite;
+      replaceStarIcons.forEach(({ starIcon, className }) => {
+        replaceStarIcon(restaurant.isFavorite, starIcon, className);
+      });
+    }
+
+    return restaurant;
+  });
+
+  setStorage(STORAGE_KEY.RESTAURANTS, restaurantList);
+}
+
 function handleRestaurantItemClick(e: MouseEvent, id: string) {
   const target = e.target as HTMLElement;
   if (target.closest(".star-icon")) {
-    const restaurantList = getRestaurantList().map((restaurant) => {
-      if (restaurant.id === id) {
-        restaurant.isFavorite = !restaurant.isFavorite;
-        replaceStarIcon({ isFavorite: restaurant.isFavorite });
-      }
+    const starIcon = getRestaurantItemStarIcon(id);
+    toggleRestaurantFavorite(id, [{ starIcon, className: "star-icon" }]);
+  }
 
-      return restaurant;
-    });
-
-    setStorage(STORAGE_KEY.RESTAURANTS, restaurantList);
+  if (target.closest(".restaurant")) {
+    const restaurantData = getRestaurantItem(id);
+    openRestaurantDetailModal(restaurantData);
   }
 }
 
@@ -45,18 +68,12 @@ export default function createRestaurantItem({
   description,
   isFavorite,
 }: Restaurant) {
-  const restaurantItem = createElement("li", { className: "restaurant" });
-
-  const categoryBox = createElement("div", {
-    className: "restaurant__category",
+  const restaurantItem = createElement("li", {
+    className: "restaurant",
+    dataset: {
+      id,
+    },
   });
-  const categoryImage = createElement("img", {
-    src: categoryIcon[category],
-    alt: category,
-    className: "category-icon",
-  });
-  categoryBox.appendChild(categoryImage);
-
   const infoBox = createElement("div", { className: "restaurant__info" });
   const nameElement = createElement("h3", {
     className: ["restaurant__name", "text-subtitle"],
@@ -73,9 +90,9 @@ export default function createRestaurantItem({
   infoBox.append(nameElement, distanceElement, descriptionElement);
 
   restaurantItem.append(
-    categoryBox,
+    createCategoryIcon(category),
     infoBox,
-    createStarIcon({ isFill: isFavorite })
+    createStarIcon({ className: "star-icon", isFill: isFavorite })
   );
   restaurantItem.addEventListener("click", (e: MouseEvent) =>
     handleRestaurantItemClick(e, id)
