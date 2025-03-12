@@ -4,7 +4,9 @@ import {
   renderRestaurantList,
   getRestaurantList,
 } from "./components/restaurant/list/restaurantList.ts";
+import { renderRestaurantTab } from "./components/restaurant/tab/restaurantTab.ts";
 
+renderRestaurantTab();
 renderFilterBox();
 renderRestaurantList(getRestaurantList());
 document.body.addEventListener("click", handleBottomSheetToggle);

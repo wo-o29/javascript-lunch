@@ -57,6 +57,7 @@ function filterRestaurantList(
 interface CurrentRestaurantListState {
   categoryFilter: CategoryFilter;
   sortedOption: SortedOption;
+  favoriteRenderMode: boolean;
   renderedRestaurantList: Restaurant[];
 }
 
@@ -64,6 +65,7 @@ function restaurantListRenderer() {
   const currentState: CurrentRestaurantListState = {
     categoryFilter: "전체",
     sortedOption: "name",
+    favoriteRenderMode: false,
     renderedRestaurantList: [],
   };
 
@@ -97,6 +99,15 @@ function restaurantListRenderer() {
       currentState.sortedOption
     );
 
+    if (currentState.favoriteRenderMode) {
+      const favoriteList = sortedList.filter(({ isFavorite }) => isFavorite);
+      restaurantListContainer?.replaceChildren(
+        createRestaurantList(favoriteList)
+      );
+      currentState.renderedRestaurantList = favoriteList;
+      return;
+    }
+
     restaurantListContainer?.replaceChildren(createRestaurantList(sortedList));
     currentState.renderedRestaurantList = sortedList;
   }
@@ -118,12 +129,23 @@ function restaurantListRenderer() {
     renderRestaurantList(getRestaurantList());
   }
 
+  function toggleFavoriteRenderMode() {
+    currentState.favoriteRenderMode = !currentState.favoriteRenderMode;
+    renderRestaurantList(getRestaurantList());
+  }
+
+  function getFavoriteRenderMode() {
+    return currentState.favoriteRenderMode;
+  }
+
   return {
     createRestaurantList,
     renderRestaurantList,
     addRestaurantItem,
     setCategoryFilter,
     setSortedOption,
+    toggleFavoriteRenderMode,
+    getFavoriteRenderMode,
   };
 }
 
@@ -133,4 +155,6 @@ export const {
   addRestaurantItem,
   setCategoryFilter,
   setSortedOption,
+  toggleFavoriteRenderMode,
+  getFavoriteRenderMode,
 } = restaurantListRenderer();
