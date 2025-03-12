@@ -27,7 +27,7 @@ export function removeRestaurantItem(id: string): Restaurant[] {
 export function sortRestaurantList(
   restaurantList: Restaurant[],
   sortedOption: SortedOption
-) {
+): Restaurant[] {
   return restaurantList.sort((a, b) => {
     if (sortedOption === "name") {
       return a[sortedOption].localeCompare(b[sortedOption]);
@@ -40,7 +40,7 @@ export function sortRestaurantList(
 export function filterRestaurantList(
   restaurantList: Restaurant[],
   categoryFilter: CategoryFilter
-) {
+): Restaurant[] {
   if (categoryFilter === "전체") {
     return restaurantList;
   }
