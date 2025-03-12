@@ -56,10 +56,10 @@
 
 .select-all-restaurant-tab {
   left: 1%;
-  animation: rightToLeft 0.2s ease forwards;
+  animation: rightToLeft 0.45s ease forwards;
 }
 
 .select-favorite-restaurant-tab {
   left: 49%;
-  animation: leftToRight 0.25s ease forwards;
+  animation: leftToRight 0.45s ease forwards;
 }
