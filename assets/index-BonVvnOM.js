@@ -620,7 +620,7 @@ function restaurantFormValidation({
 }) {
   _validateRestaurantCategory(category);
   _validateRestaurantName(name);
-  _validateRestaurantDistance(distance);
+  _validateRestaurantDistance(Number(distance));
   description && _validateRestaurantDescription(description);
   link && _validateRestaurantLink(link);
 }
