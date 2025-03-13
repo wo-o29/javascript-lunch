@@ -44,7 +44,7 @@ function createRestaurantDetail({
   link,
   isFavorite,
 }: Restaurant) {
-  const detailBox = createElement("div");
+  const detailBox = createElement("div", { className: "detail-modal" });
   const detailHeader = createElement("div", {
     className: "detail-header",
   });
