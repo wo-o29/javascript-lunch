@@ -1,13 +1,18 @@
-import type { Props } from "../../types/type.ts";
+import type { OptionItem } from "../../types/type";
+
+interface DropdownBoxProps extends HTMLSelectElement {
+  labelText: string;
+  dropdownList: OptionItem[];
+}
 
 export default function createDropdownBox({
   labelText,
-  id,
   dropdownList,
+  id,
   required = false,
-}: Props) {
+}: DropdownBoxProps) {
   const dropdownBox = createElement("div", {
-    className: ["form-item", `${required && "form-item--required"}`],
+    className: required ? "form-item form-item--required" : "form-item",
   });
   const dropdownLabel = createElement("label", {
     htmlFor: id,
@@ -20,12 +25,11 @@ export default function createDropdownBox({
     required,
   });
 
-  const optionElements = dropdownList.map(
-    ({ value, text }: Record<string, string>) =>
-      createElement("option", {
-        value,
-        textContent: text,
-      })
+  const optionElements = dropdownList.map(({ value, text }) =>
+    createElement("option", {
+      value,
+      textContent: text,
+    })
   );
 
   select.append(...optionElements);

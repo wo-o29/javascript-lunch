@@ -9,7 +9,7 @@ export default function createTextAreaBox({
   rows = 5,
 }: Props) {
   const textAreaBox = createElement("div", {
-    className: ["form-item", `${required && "form-item--required"}`],
+    className: required ? "form-item form-item--required" : "form-item",
   });
   const textAreaLabel = createElement("label", {
     htmlFor: id,

@@ -8,7 +8,7 @@ export default function createInputBox({
   textCaption = "",
 }: Props) {
   const inputBox = createElement("div", {
-    className: ["form-item", `${required && "form-item--required"}`],
+    className: required ? "form-item form-item--required" : "form-item",
   });
   const inputLabel = createElement("label", {
     htmlFor: id,
