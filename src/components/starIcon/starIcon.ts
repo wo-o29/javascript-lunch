@@ -15,7 +15,7 @@ function createStarIcon({ className, isFill }: StarIconProps) {
     "http://www.w3.org/2000/svg",
     "svg"
   );
-  starIcon.setAttribute("class", className);
+  starIcon.classList.add(className);
   starIcon.innerHTML = `
     <g id="Star" clip-path="url(#clip0_9959_430)">
     <path id="Vector" d="${filled[filledKey]}" fill="#EC4A0A"/>
