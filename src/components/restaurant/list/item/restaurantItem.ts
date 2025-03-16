@@ -1,11 +1,7 @@
 import { STORAGE_KEY } from "../../../../settings/settings.ts";
 import type { Restaurant } from "../../../../types/type.ts";
-import {
-  getRestaurantItem,
-  getRestaurantList,
-} from "../../../../utils/restaurant.ts";
+import { getRestaurantList } from "../../../../utils/restaurant.ts";
 import { setStorage } from "../../../../utils/storage.ts";
-import { openRestaurantDetailModal } from "../../../bottomSheet/bottomSheet.ts";
 import createCategoryIcon from "../../../categoryIcon/categoryIcon.ts";
 import createStarIcon from "../../../starIcon/starIcon.ts";
 
@@ -50,17 +46,9 @@ export function toggleRestaurantFavorite(
   setStorage(STORAGE_KEY.RESTAURANTS, restaurantList);
 }
 
-function handleRestaurantItemClick(e: MouseEvent, id: string) {
+function handleStarIconClick(e: MouseEvent, id: string) {
   const target = e.target as HTMLElement;
-  if (target.closest(".star-icon")) {
-    const starIcon = getRestaurantItemStarIcon(id);
-    toggleRestaurantFavorite(id, [{ starIcon, className: "star-icon" }]);
-  }
-
-  if (target.closest(".restaurant")) {
-    const restaurantData = getRestaurantItem(id);
-    openRestaurantDetailModal(restaurantData);
-  }
+  toggleRestaurantFavorite(id, [{ starIcon: target, className: "star-icon" }]);
 }
 
 export default function createRestaurantItem({
@@ -92,13 +80,17 @@ export default function createRestaurantItem({
   });
   infoBox.append(nameElement, distanceElement, descriptionElement);
 
-  restaurantItem.append(
-    createCategoryIcon(category),
-    infoBox,
-    createStarIcon({ className: "star-icon", isFill: isFavorite })
+  const starIconBox = createElement("div", { className: "restaurant__star" });
+  const starIcon = createStarIcon({
+    className: "star-icon",
+    isFill: isFavorite,
+  });
+  starIconBox.appendChild(starIcon);
+  restaurantItem.append(createCategoryIcon(category), infoBox, starIconBox);
+
+  starIconBox.addEventListener("click", (e: MouseEvent) =>
+    handleStarIconClick(e, id)
   );
-  restaurantItem.addEventListener("click", (e: MouseEvent) =>
-    handleRestaurantItemClick(e, id)
-  );
+
   return restaurantItem;
 }
