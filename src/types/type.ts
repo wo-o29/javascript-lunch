@@ -1,8 +1,11 @@
 export type HTMLTagName = keyof HTMLElementTagNameMap;
 
-export interface Props {
-  [key: string]: any;
-}
+export type Props<T extends HTMLTagName> = Omit<
+  Partial<HTMLElementTagNameMap[T]>,
+  "className"
+> & {
+  className?: string | string[];
+};
 
 export type Category = "한식" | "중식" | "일식" | "양식" | "아시안" | "기타";
 
@@ -21,3 +24,10 @@ export interface Restaurant {
   link?: string;
   isFavorite: boolean;
 }
+
+export interface OptionItem {
+  value: string | number;
+  text: string;
+}
+
+export type ReadOnlyOptionList = ReadonlyArray<Readonly<OptionItem>>;

@@ -1,8 +1,8 @@
-import type { OptionItem } from "../../types/type";
+import type { Props, ReadOnlyOptionList } from "../../types/type";
 
-interface DropdownBoxProps extends HTMLSelectElement {
+interface DropdownBoxProps extends Props<"select"> {
   labelText: string;
-  dropdownList: OptionItem[];
+  dropdownList: ReadOnlyOptionList;
 }
 
 export default function createDropdownBox({

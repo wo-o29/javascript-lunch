@@ -1,5 +1,12 @@
 import type { Props } from "../../types/type";
 
+interface TextAreaBoxProps extends Props<"textarea"> {
+  labelText: string;
+  textCaption?: string;
+  cols?: number;
+  rows?: number;
+}
+
 export default function createTextAreaBox({
   id,
   labelText,
@@ -7,7 +14,7 @@ export default function createTextAreaBox({
   textCaption = "",
   cols = 30,
   rows = 5,
-}: Props) {
+}: TextAreaBoxProps) {
   const textAreaBox = createElement("div", {
     className: required ? "form-item form-item--required" : "form-item",
   });
