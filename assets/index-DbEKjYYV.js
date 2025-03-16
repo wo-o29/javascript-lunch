@@ -44,11 +44,15 @@ function createElement(tag, props = {}) {
     }
     if (key === "dataset") {
       for (const [dataKey, dataValue] of Object.entries(value)) {
-        element.dataset[dataKey] = dataValue;
+        element.setAttribute(`data-${dataKey}`, dataValue);
       }
       continue;
     }
-    element[key] = value;
+    if (key === "textContent") {
+      element.textContent = value;
+      continue;
+    }
+    element.setAttribute(key, value);
   }
   return element;
 }
@@ -208,21 +212,25 @@ const filled = {
   true: "M16 23.0267L24.24 28L22.0533 18.6267L29.3333 12.32L19.7467 11.5067L16 2.66666L12.2533 11.5067L2.66666 12.32L9.94666 18.6267L7.76 28L16 23.0267Z",
   false: "M29.3333 12.32L19.7467 11.4934L16 2.66669L12.2533 11.5067L2.66666 12.32L9.94666 18.6267L7.76 28L16 23.0267L24.24 28L22.0667 18.6267L29.3333 12.32ZM16 20.5334L10.9867 23.56L12.32 17.8534L7.89333 14.0134L13.7333 13.5067L16 8.13335L18.28 13.52L24.12 14.0267L19.6933 17.8667L21.0267 23.5734L16 20.5334Z"
 };
-function createStarIcon({ className, isFill }) {
+function createStarIcon({
+  className,
+  isFill,
+  fillColor = "#EC4A0A"
+}) {
   const filledKey = String(isFill);
   const starIcon = document.createElementNS(
     "http://www.w3.org/2000/svg",
     "svg"
   );
-  starIcon.setAttribute("class", className);
+  starIcon.classList.add(className);
   starIcon.innerHTML = `
     <g id="Star" clip-path="url(#clip0_9959_430)">
-    <path id="Vector" d="${filled[filledKey]}" fill="#EC4A0A"/>
+      <path id="Vector" d="${filled[filledKey]}" fill="${fillColor}"/>
     </g>
     <defs>
-    <clipPath id="clip0_9959_430">
-    <rect width="32" height="32" fill="white"/>
-    </clipPath>
+      <clipPath id="clip0_9959_430">
+      <rect width="32" height="32" fill="white"/>
+      </clipPath>
     </defs>
   `;
   return starIcon;
@@ -251,16 +259,9 @@ function toggleRestaurantFavorite(id, replaceStarIcons) {
   });
   setStorage(STORAGE_KEY.RESTAURANTS, restaurantList);
 }
-function handleRestaurantItemClick$1(e, id) {
+function handleStarIconClick(e, id) {
   const target = e.target;
-  if (target.closest(".star-icon")) {
-    const starIcon = getRestaurantItemStarIcon(id);
-    toggleRestaurantFavorite(id, [{ starIcon, className: "star-icon" }]);
-  }
-  if (target.closest(".restaurant")) {
-    const restaurantData = getRestaurantItem(id);
-    openRestaurantDetailModal(restaurantData);
-  }
+  toggleRestaurantFavorite(id, [{ starIcon: target, className: "star-icon" }]);
 }
 function createRestaurantItem({
   id,
@@ -290,14 +291,16 @@ function createRestaurantItem({
     textContent: description
   });
   infoBox.append(nameElement, distanceElement, descriptionElement);
-  restaurantItem.append(
-    createCategoryIcon(category),
-    infoBox,
-    createStarIcon({ className: "star-icon", isFill: isFavorite })
-  );
-  restaurantItem.addEventListener(
+  const starIconBox = createElement("div", { className: "restaurant__star" });
+  const starIcon = createStarIcon({
+    className: "star-icon",
+    isFill: isFavorite
+  });
+  starIconBox.appendChild(starIcon);
+  restaurantItem.append(createCategoryIcon(category), infoBox, starIconBox);
+  starIconBox.addEventListener(
     "click",
-    (e) => handleRestaurantItemClick$1(e, id)
+    (e) => handleStarIconClick(e, id)
   );
   return restaurantItem;
 }
@@ -412,7 +415,7 @@ function createRestaurantDetail({
   link,
   isFavorite
 }) {
-  const detailBox = createElement("div");
+  const detailBox = createElement("div", { className: "detail-modal" });
   const detailHeader = createElement("div", {
     className: "detail-header"
   });
@@ -470,12 +473,12 @@ function createRestaurantDetail({
 }
 function createDropdownBox({
   labelText,
-  id,
   dropdownList,
+  id,
   required = false
 }) {
   const dropdownBox = createElement("div", {
-    className: ["form-item", `${required && "form-item--required"}`]
+    className: required ? "form-item form-item--required" : "form-item"
   });
   const dropdownLabel = createElement("label", {
     htmlFor: id,
@@ -505,7 +508,7 @@ function createInputBox({
   textCaption = ""
 }) {
   const inputBox = createElement("div", {
-    className: ["form-item", `${required && "form-item--required"}`]
+    className: required ? "form-item form-item--required" : "form-item"
   });
   const inputLabel = createElement("label", {
     htmlFor: id,
@@ -538,7 +541,7 @@ function createTextAreaBox({
   rows = 5
 }) {
   const textAreaBox = createElement("div", {
-    className: ["form-item", `${required && "form-item--required"}`]
+    className: required ? "form-item form-item--required" : "form-item"
   });
   const textAreaLabel = createElement("label", {
     htmlFor: id,
@@ -816,10 +819,18 @@ function bottomSheetController() {
   }
   function handleBottomSheetToggle2(event) {
     const target = event.target;
-    if (target.closest(".restaurant-add-button")) {
+    const restaurantAddButton = target.closest(".restaurant-add-button");
+    if (restaurantAddButton) {
       openRestaurantAddFormModal();
     }
-    if (target.closest(".modal-backdrop")) {
+    const restaurantItem = target.closest(".restaurant");
+    if (restaurantItem) {
+      const dataId = restaurantItem.dataset.id;
+      const restaurantData = getRestaurantItem(dataId);
+      openRestaurantDetailModal2(restaurantData);
+    }
+    const modalBackdrop = target.closest(".modal-backdrop");
+    if (modalBackdrop) {
       modal.close();
     }
   }
@@ -831,8 +842,7 @@ function bottomSheetController() {
 }
 const {
   handleModalClose,
-  handleBottomSheetToggle,
-  openRestaurantDetailModal
+  handleBottomSheetToggle
 } = bottomSheetController();
 function restaurantTabRenderer() {
   function toggleRestaurantTab() {
