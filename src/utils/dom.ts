@@ -1,10 +1,10 @@
-import type { HTMLTagName, Props } from "../types/type.ts";
+import type { HTMLTagName } from "../types/type.ts";
 
-export function createElement(
-  tag: HTMLTagName,
-  props: Props = {}
+export function createElement<T extends HTMLTagName>(
+  tag: T,
+  props: Partial<HTMLElementTagNameMap[T]> = {}
 ): HTMLElement {
-  const element = document.createElement(tag) as HTMLElement;
+  const element = document.createElement(tag);
 
   for (const [key, value] of Object.entries(props)) {
     if (key === "className") {
@@ -17,12 +17,17 @@ export function createElement(
 
     if (key === "dataset") {
       for (const [dataKey, dataValue] of Object.entries(value)) {
-        element.dataset[dataKey] = dataValue as string;
+        element.setAttribute(`data-${dataKey}`, dataValue as string);
       }
       continue;
     }
 
-    (element as any)[key] = value;
+    if (key === "textContent") {
+      element.textContent = value as string;
+      continue;
+    }
+
+    element.setAttribute(key, value as string);
   }
 
   return element;
