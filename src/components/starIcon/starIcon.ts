@@ -23,12 +23,12 @@ function createStarIcon({
   starIcon.classList.add(className);
   starIcon.innerHTML = `
     <g id="Star" clip-path="url(#clip0_9959_430)">
-    <path id="Vector" d="${filled[filledKey]}" fill="#${fillColor}}"/>
+      <path id="Vector" d="${filled[filledKey]}" fill="${fillColor}"/>
     </g>
     <defs>
-    <clipPath id="clip0_9959_430">
-    <rect width="32" height="32" fill="white"/>
-    </clipPath>
+      <clipPath id="clip0_9959_430">
+      <rect width="32" height="32" fill="white"/>
+      </clipPath>
     </defs>
   `;
 
