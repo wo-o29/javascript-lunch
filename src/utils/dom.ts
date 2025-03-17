@@ -1,5 +1,15 @@
 import type { HTMLTagName } from "../types/type.ts";
 
+const booleanAttributes = [
+  "required",
+  "disabled",
+  "checked",
+  "readonly",
+  "multiple",
+  "selected",
+  "hidden",
+];
+
 export function createElement<T extends HTMLTagName>(
   tag: T,
   props: Partial<HTMLElementTagNameMap[T]> = {}
@@ -24,6 +34,15 @@ export function createElement<T extends HTMLTagName>(
 
     if (key === "textContent") {
       element.textContent = value as string;
+      continue;
+    }
+
+    if (booleanAttributes.includes(key)) {
+      if (value) {
+        element.setAttribute(key, "");
+      } else {
+        element.removeAttribute(key);
+      }
       continue;
     }
 
