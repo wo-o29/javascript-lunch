@@ -13,6 +13,11 @@ describe("음식점 상세 모달 테스트", () => {
     cy.get(".restaurant").first().click();
     cy.get(".modal").should("be.visible");
     cy.get(".detail-modal").should("exist");
+
+    cy.get(".detail-modal").within(() => {
+      cy.contains("h2", "가").should("exist");
+      cy.contains("span", "캠퍼스부터 20분 내").should("exist");
+    });
   });
 
   it("음식점 상세 모달 띄우고 닫기 버튼 클릭", () => {
