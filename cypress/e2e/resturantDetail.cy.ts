@@ -1,11 +1,11 @@
-import { mockRestaurantList } from "../fixture/restaurantList";
+import type { Restaurant } from "../../src/types/type";
 import addRestaurant from "../utils/addRestaurant";
 
 describe("음식점 상세 모달 테스트", () => {
   beforeEach(() => {
     cy.visit("http://localhost:5173/");
-    mockRestaurantList.forEach((item) => {
-      addRestaurant(item);
+    cy.fixture("restaurantList.json").then((mockData) => {
+      mockData.forEach((item: Restaurant) => addRestaurant(item));
     });
   });
 
