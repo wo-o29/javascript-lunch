@@ -12,7 +12,7 @@ export default function createDropdownBox({
   required = false,
 }: DropdownBoxProps) {
   const dropdownBox = createElement("div", {
-    className: required ? "form-item form-item--required" : "form-item",
+    className: required ? ["form-item", "form-item--required"] : "form-item",
   });
   const dropdownLabel = createElement("label", {
     htmlFor: id,

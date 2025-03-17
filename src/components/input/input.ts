@@ -13,7 +13,7 @@ export default function createInputBox({
   textCaption = "",
 }: InputBoxProps) {
   const inputBox = createElement("div", {
-    className: required ? "form-item form-item--required" : "form-item",
+    className: required ? ["form-item", "form-item--required"] : "form-item",
   });
   const inputLabel = createElement("label", {
     htmlFor: id,

@@ -16,7 +16,7 @@ export default function createTextAreaBox({
   rows = 5,
 }: TextAreaBoxProps) {
   const textAreaBox = createElement("div", {
-    className: required ? "form-item form-item--required" : "form-item",
+    className: required ? ["form-item", "form-item--required"] : "form-item",
   });
   const textAreaLabel = createElement("label", {
     htmlFor: id,
