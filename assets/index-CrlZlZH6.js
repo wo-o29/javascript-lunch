@@ -48,11 +48,7 @@ function createElement(tag, props = {}) {
       }
       continue;
     }
-    if (key === "textContent") {
-      element.textContent = value;
-      continue;
-    }
-    element.setAttribute(key, value);
+    element[key] = value;
   }
   return element;
 }
@@ -478,7 +474,7 @@ function createDropdownBox({
   required = false
 }) {
   const dropdownBox = createElement("div", {
-    className: required ? "form-item form-item--required" : "form-item"
+    className: required ? ["form-item", "form-item--required"] : "form-item"
   });
   const dropdownLabel = createElement("label", {
     htmlFor: id,
@@ -508,7 +504,7 @@ function createInputBox({
   textCaption = ""
 }) {
   const inputBox = createElement("div", {
-    className: required ? "form-item form-item--required" : "form-item"
+    className: required ? ["form-item", "form-item--required"] : "form-item"
   });
   const inputLabel = createElement("label", {
     htmlFor: id,
@@ -541,7 +537,7 @@ function createTextAreaBox({
   rows = 5
 }) {
   const textAreaBox = createElement("div", {
-    className: required ? "form-item form-item--required" : "form-item"
+    className: required ? ["form-item", "form-item--required"] : "form-item"
   });
   const textAreaLabel = createElement("label", {
     htmlFor: id,
